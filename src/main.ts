@@ -9,7 +9,7 @@ async function bootstrap() {
     options: {
       package: 'payment',
       protoPath: join(__dirname, '../payment.proto'),
-      url: 'localhost:50056',
+      url: '0.0.0.0:50056',
     },
   });
   app.enableShutdownHooks();

@@ -14,9 +14,21 @@ datasource db {
   directUrl = env("DIRECT_URL")
   
 }
+
 model Payment {
-  id        String   @id @default(cuid())
-  userId    String
-  orderId   String
-  amount    Float
+  paymentId   String   @id @default(cuid())  
+  orderId        String   
+  customerId     String   
+  amount          Decimal  @db.Decimal(10, 2)
+  paymentMethod  String   
+  status          PaymentStatus @default(PENDING)
+  transactionId  String?  @unique 
+  createdAt    DateTime    @default(now())
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
