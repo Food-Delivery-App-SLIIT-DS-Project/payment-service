@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PaymentStatus, PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 @Injectable()
 export class PaymentService {
-  create(createPaymentDto: CreatePaymentDto) {
-    return 'This action adds a new payment';
+
+  async create(data: any) {
+    const payment = await prisma.payment.create({
+      data: {
+        orderId: data.orderId,
+        customerId: data.customerId,
+        amount: data.amount,
+        paymentMethod: data.paymentMethod,
+        transactionId: data.transactionId || undefined,
+      },
+    });
+    return this.toGrpcFormat(payment);
   }
 
-  findAll() {
-    return `This action returns all payment`;
+  async findOne(paymentId: string) {
+    const payment = await prisma.payment.findUnique({
+      where: { paymentId },
+    });
+    if (!payment) throw new NotFoundException('Payment not found');
+    return this.toGrpcFormat(payment);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} payment`;
+  async refund(paymentId: string) {
+    const payment = await prisma.payment.update({
+      where: { paymentId },
+      data: { status: PaymentStatus.REFUNDED }, 
+    });
+    return this.toGrpcFormat(payment);
   }
 
-  update(id: number, updatePaymentDto: UpdatePaymentDto) {
-    return `This action updates a #${id} payment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} payment`;
+  toGrpcFormat(payment: any) {
+    return {
+      paymentId: payment.paymentId,
+      orderId: payment.orderId,
+      customerId: payment.customerId,
+      amount: parseFloat(payment.amount),
+      paymentMethod: payment.paymentMethod,
+      status: payment.status,
+      transactionId: payment.transactionId || '',
+      createdAt: payment.createdAt.toISOString(),
+    };
   }
 }
