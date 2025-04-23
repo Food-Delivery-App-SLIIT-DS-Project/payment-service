@@ -1,8 +1,6 @@
 import { Controller } from '@nestjs/common';
-import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
+import { GrpcMethod, MessagePattern } from '@nestjs/microservices';
 import { PaymentService } from './payment.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
 
 @Controller()
 export class PaymentController {
@@ -11,7 +9,7 @@ export class PaymentController {
   @GrpcMethod('PaymentService', 'CreatePayment')
   @MessagePattern('createPayment')
   async create(data: any) {
-    console.log('data', data);
+    // console.log('data', data);
     return this.paymentService.create(data);
   }
 
