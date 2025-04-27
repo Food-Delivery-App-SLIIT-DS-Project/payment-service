@@ -6,6 +6,7 @@ service PaymentService {
   rpc CreatePayment (CreatePaymentRequest) returns (PaymentResponse);
   rpc GetPayment (GetPaymentRequest) returns (PaymentResponse);
   rpc RefundPayment (RefundPaymentRequest) returns (PaymentResponse);
+  rpc FindAllPayments (FindAllPaymentsRequest) returns (FindAllPaymentsResponse);
 }
 
 message CreatePaymentRequest {
@@ -33,4 +34,12 @@ message PaymentResponse {
   string status = 6;
   string transactionId = 7;
   string createdAt = 8;
+}
+
+message FindAllPaymentsRequest {
+  // You can add pagination later if needed. For now, keep it empty.
+}
+
+message FindAllPaymentsResponse {
+  repeated PaymentResponse payments = 1;
 }

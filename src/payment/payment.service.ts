@@ -54,6 +54,16 @@ export class PaymentService {
     return this.toGrpcFormat(payment);
   }
 
+  async findAll() {
+    const payments = await prisma.payment.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  
+    return {
+      payments: payments.map(this.toGrpcFormat),
+    };
+  }
+
   toGrpcFormat(payment: any) {
     return {
       paymentId: payment.paymentId,

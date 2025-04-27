@@ -13,10 +13,11 @@ export class PaymentController {
     return this.paymentService.create(data);
   }
 
-  // @MessagePattern('findAllPayment')
-  // findAll() {
-  //   return this.paymentService.fi();
-  // }
+  @GrpcMethod('PaymentService', 'FindAllPayments')
+  @MessagePattern('findAllPayments')
+  findAll(_: any) {
+    return this.paymentService.findAll();
+  }
 
   @GrpcMethod('PaymentService', 'GetPayment')
   @MessagePattern('findOnePayment')
@@ -29,6 +30,7 @@ export class PaymentController {
   async refund(data: { paymentId: string }) {
     return this.paymentService.refund(data.paymentId);
   }
+
 
   // @MessagePattern('updatePayment')
   // update(@Payload() updatePaymentDto: UpdatePaymentDto) {
