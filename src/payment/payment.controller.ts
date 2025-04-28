@@ -18,6 +18,12 @@ export class PaymentController {
   findAll(_: any) {
     return this.paymentService.findAll();
   }
+  
+  @GrpcMethod('PaymentService', 'FindPaymentsByUser')
+  @MessagePattern('findPaymentsByUser')
+  findPaymentsByUser(data: { customerId: string }) {
+    return this.paymentService.findPaymentsByUser(data.customerId);
+  }
 
   @GrpcMethod('PaymentService', 'GetPayment')
   @MessagePattern('findOnePayment')

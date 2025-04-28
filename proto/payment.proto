@@ -7,6 +7,7 @@ service PaymentService {
   rpc GetPayment (GetPaymentRequest) returns (PaymentResponse);
   rpc RefundPayment (RefundPaymentRequest) returns (PaymentResponse);
   rpc FindAllPayments (FindAllPaymentsRequest) returns (FindAllPaymentsResponse);
+  rpc FindPaymentsByUser (FindPaymentsByUserRequest) returns (FindPaymentsByUserResponse);
 }
 
 message CreatePaymentRequest {
@@ -41,5 +42,13 @@ message FindAllPaymentsRequest {
 }
 
 message FindAllPaymentsResponse {
+  repeated PaymentResponse payments = 1;
+}
+
+message FindPaymentsByUserRequest {
+  string customerId = 1;
+}
+
+message FindPaymentsByUserResponse {
   repeated PaymentResponse payments = 1;
 }
