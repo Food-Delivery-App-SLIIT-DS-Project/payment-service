@@ -9,7 +9,7 @@ async function bootstrap() {
   void ConfigModule.forRoot({
     isGlobal: true,
   });
-  const url = process.env.PAYMENT_SERVICE_URL || 'localhost:50055';
+  const url = process.env.PAYMENT_SERVICE_URL || '0.0.0.0:50056';
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.GRPC,
     options: {
@@ -20,6 +20,6 @@ async function bootstrap() {
   });
   app.enableShutdownHooks();
   await app.listen();
-  console.log(`Payment service is running on ${url}`);
+  console.log(`Payment microservice is running on ${url}`);
 }
 void bootstrap();

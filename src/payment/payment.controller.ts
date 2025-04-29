@@ -1,8 +1,6 @@
 import { Controller } from '@nestjs/common';
-import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
+import { GrpcMethod, MessagePattern } from '@nestjs/microservices';
 import { PaymentService } from './payment.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
 
 @Controller()
 export class PaymentController {
@@ -11,14 +9,21 @@ export class PaymentController {
   @GrpcMethod('PaymentService', 'CreatePayment')
   @MessagePattern('createPayment')
   async create(data: any) {
-    console.log('data', data);
+    // console.log('data', data);
     return this.paymentService.create(data);
   }
 
-  // @MessagePattern('findAllPayment')
-  // findAll() {
-  //   return this.paymentService.fi();
-  // }
+  @GrpcMethod('PaymentService', 'FindAllPayments')
+  @MessagePattern('findAllPayments')
+  findAll(_: any) {
+    return this.paymentService.findAll();
+  }
+  
+  @GrpcMethod('PaymentService', 'FindPaymentsByUser')
+  @MessagePattern('findPaymentsByUser')
+  findPaymentsByUser(data: { customerId: string }) {
+    return this.paymentService.findPaymentsByUser(data.customerId);
+  }
 
   @GrpcMethod('PaymentService', 'GetPayment')
   @MessagePattern('findOnePayment')
@@ -31,6 +36,7 @@ export class PaymentController {
   async refund(data: { paymentId: string }) {
     return this.paymentService.refund(data.paymentId);
   }
+
 
   // @MessagePattern('updatePayment')
   // update(@Payload() updatePaymentDto: UpdatePaymentDto) {
