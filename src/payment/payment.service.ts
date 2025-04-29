@@ -16,6 +16,7 @@ export class PaymentService {
           orderId: data.orderId,
           customerId: data.customerId,
           amount: data.amount,
+          status: data.status,
           paymentMethod: data.paymentMethod,
           transactionId: data.transactionId || undefined,
         },
