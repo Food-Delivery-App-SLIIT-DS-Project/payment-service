@@ -7,6 +7,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
+# Generate Prisma client
+COPY prisma ./prisma
+RUN npx prisma generate
+
 COPY . . 
 RUN npm run build
 
@@ -20,7 +24,7 @@ RUN npm install --omit=dev
 
 # Only copy the built files
 COPY --from=builder /app/dist ./dist
-COPY .env .env
+# COPY .env .env
 
 # Optional: Clean up cache
 RUN npm cache clean --force
