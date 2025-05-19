@@ -16,6 +16,7 @@ export class PaymentService {
           orderId: data.orderId,
           customerId: data.customerId,
           amount: data.amount,
+          status: data.status,
           paymentMethod: data.paymentMethod,
           transactionId: data.transactionId || undefined,
         },
@@ -52,6 +53,26 @@ export class PaymentService {
       data: { status: PaymentStatus.REFUNDED },
     });
     return this.toGrpcFormat(payment);
+  }
+
+  async findAll() {
+    const payments = await prisma.payment.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  
+    return {
+      payments: payments.map(this.toGrpcFormat),
+    };
+  }
+
+  async findPaymentsByUser(customerId: string) {
+    const payments = await prisma.payment.findMany({
+      where: { customerId: customerId },
+      orderBy: { createdAt: 'desc' },
+    });
+    return {
+      payments: payments.map(this.toGrpcFormat),
+    };
   }
 
   toGrpcFormat(payment: any) {
