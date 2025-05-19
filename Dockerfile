@@ -22,8 +22,15 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Only copy the built files
+# Copy generated Prisma client files
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma  
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
+
+# App code and config
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+
 # COPY .env .env
 
 # Optional: Clean up cache
