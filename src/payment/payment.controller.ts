@@ -41,7 +41,11 @@ export class PaymentController {
   async refund(data: { paymentId: string }) {
     return this.paymentService.refund(data.paymentId);
   }
-
+ @GrpcMethod('PaymentService', 'UpdatePaymentStatus')
+  @MessagePattern('UpdatePaymentStatus')
+  async updatePaymentStatus(data: { transactionId: string; status: string }) {
+    return this.paymentService.updatePaymentStatus(data.transactionId, data.status);
+  }
 
   // @MessagePattern('updatePayment')
   // update(@Payload() updatePaymentDto: UpdatePaymentDto) {
