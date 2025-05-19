@@ -1,3 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable prettier/prettier */
 import { Controller } from '@nestjs/common';
 import { GrpcMethod, MessagePattern } from '@nestjs/microservices';
 import { PaymentService } from './payment.service';
