@@ -8,6 +8,12 @@ service PaymentService {
   rpc RefundPayment (RefundPaymentRequest) returns (PaymentResponse);
   rpc FindAllPayments (FindAllPaymentsRequest) returns (FindAllPaymentsResponse);
   rpc FindPaymentsByUser (FindPaymentsByUserRequest) returns (FindPaymentsByUserResponse);
+  rpc UpdatePaymentStatus (UpdatePaymentStatusRequest) returns (PaymentResponse);
+}
+
+message UpdatePaymentStatusRequest {
+  string transactionId = 1;
+  string status = 2; // e.g., "COMPLETED", "FAILED", "PENDING"
 }
 
 message CreatePaymentRequest {
@@ -15,7 +21,7 @@ message CreatePaymentRequest {
   string customerId = 2;
   double amount = 3;
   string paymentMethod = 4;
-  string transactionId = 5;
+  // string transactionId = 6;
 }
 
 message GetPaymentRequest {

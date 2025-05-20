@@ -1,3 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable prettier/prettier */
 import { Controller } from '@nestjs/common';
 import { GrpcMethod, MessagePattern } from '@nestjs/microservices';
 import { PaymentService } from './payment.service';
@@ -36,7 +41,11 @@ export class PaymentController {
   async refund(data: { paymentId: string }) {
     return this.paymentService.refund(data.paymentId);
   }
-
+ @GrpcMethod('PaymentService', 'UpdatePaymentStatus')
+  @MessagePattern('UpdatePaymentStatus')
+  async updatePaymentStatus(data: { transactionId: string; status: string }) {
+    return this.paymentService.updatePaymentStatus(data.transactionId, data.status);
+  }
 
   // @MessagePattern('updatePayment')
   // update(@Payload() updatePaymentDto: UpdatePaymentDto) {
